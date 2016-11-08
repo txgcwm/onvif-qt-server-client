@@ -29,12 +29,13 @@ DiscoveryObj::DiscoveryObj(DiscoveryMode mode,int _metadataVersion, char* _xaddr
     this->_endpoint = _endpoint;
 
     discoveryThread.start();
-    if(mode == SERVER_MODE){
+    if(mode == SERVER_MODE) {
         sendHello();
     }
 }
 
-DiscoveryObj::~DiscoveryObj(){
+DiscoveryObj::~DiscoveryObj()
+{
     qDebug() << "DiscoveryObj deleted";
     sendBye();
 }
@@ -65,16 +66,14 @@ int DiscoveryObj::sendProb()
       
 	// create soap instance
 	struct soap* serv = soap_new1(SOAP_IO_UDP); 
-	if (!soap_valid_socket(soap_bind(serv, NULL, 0, 1000)))
-	{
+    if (!soap_valid_socket(soap_bind(serv, NULL, 0, 1000))) {
 		soap_print_fault(serv, stderr);
 		exit(1);
 	}	
 
 	int res = 0;
 	// call resolve or probe
-    if (strlen(endpoint) == 0)
-    {
+    if (strlen(endpoint) == 0) {
         res = soap_wsdd_Probe(serv,
 		  SOAP_WSDD_ADHOC,      // mode
 		  SOAP_WSDD_TO_TS,      // to a TS
@@ -84,9 +83,7 @@ int DiscoveryObj::sendProb()
 		  type,
 		  scope,
 		  NULL);
-    }
-    else
-    {
+    } else {
         // send resolve request
         res = soap_wsdd_Resolve(serv,
           SOAP_WSDD_ADHOC,      // mode
@@ -97,8 +94,7 @@ int DiscoveryObj::sendProb()
           endpoint);
     }
 	
-	if (res != SOAP_OK)
-	{
+    if (res != SOAP_OK) {
 		soap_print_fault(serv, stderr);
         fflush(stderr);
 	}
@@ -107,9 +103,7 @@ int DiscoveryObj::sendProb()
     soap_wsdd_listen(serv, -1000000);
 	
     return 0;
-
 }
-
 
 int DiscoveryObj::sendHello()
 {
@@ -154,8 +148,6 @@ int DiscoveryObj::sendBye()
     soap_end(soap);
 }
 
-
-
 template <class T> 
 void printMatch(const T & match)
 {
@@ -195,8 +187,8 @@ void wsdd_event_ProbeMatches(struct soap *soap, unsigned int InstanceId, const c
 
     if(DiscoveryObj::theDiscovery->mode == CLIENT_MODE){
         printf("wsdd_event_ProbeMatches nbMatch:%d\n", matches->__sizeProbeMatch);
-        for (int i=0; i < matches->__sizeProbeMatch; ++i)
-        {
+
+        for (int i=0; i < matches->__sizeProbeMatch; ++i) {
             wsdd__ProbeMatchType& elt = matches->ProbeMatch[i];
 
             //mycode start
@@ -214,11 +206,11 @@ void wsdd_event_ProbeMatches(struct soap *soap, unsigned int InstanceId, const c
             DiscoveryObj::theDiscovery->discoveredDevice(device);
             //my code end
 
-
             printMatch(elt);
         }
     }
 
+    return;
 }
 
 void wsdd_event_ResolveMatches(struct soap *soap, unsigned int InstanceId, const char *SequenceId, unsigned int MessageNumber, const char *MessageID, const char *RelatesTo, struct wsdd__ResolveMatchType *match)
@@ -226,6 +218,7 @@ void wsdd_event_ResolveMatches(struct soap *soap, unsigned int InstanceId, const
     if(DiscoveryObj::theDiscovery == NULL){
         qDebug() << "DiscoveryObj::theDiscovery is NULL. Check why";
     }
+
     if(DiscoveryObj::theDiscovery->mode == CLIENT_MODE){
         printf("wsdd_event_ResolveMatches\n");
         printMatch(*match);
@@ -251,6 +244,7 @@ soap_wsdd_mode wsdd_event_Resolve(struct soap *soap, const char *MessageID, cons
     if(DiscoveryObj::theDiscovery == NULL){
         qDebug() << "DiscoveryObj::theDiscovery is NULL. Check why";
     }
+
     if(DiscoveryObj::theDiscovery->mode == SERVER_MODE){
         qDebug() << "in wsdd_event_Resolve";
         printf("wsdd_event_Resolve\tid=%s replyTo=%s endpoint=%s\n", MessageID, ReplyTo, EndpointReference);
@@ -258,8 +252,10 @@ soap_wsdd_mode wsdd_event_Resolve(struct soap *soap, const char *MessageID, cons
         {
             soap_wsdd_ResolveMatches(soap, NULL, soap_wsa_rand_uuid(soap), MessageID, ReplyTo, DiscoveryObj::theDiscovery->_endpoint, DiscoveryObj::theDiscovery->_type, DiscoveryObj::theDiscovery->_scope, NULL, DiscoveryObj::theDiscovery->_xaddr, DiscoveryObj::theDiscovery->_metadataVersion);
         }
+
         fflush(stdout);
     }
+
     return SOAP_WSDD_ADHOC;
 }
 
@@ -268,7 +264,8 @@ soap_wsdd_mode wsdd_event_Probe(struct soap *soap, const char *MessageID, const 
     if(DiscoveryObj::theDiscovery == NULL){
         qDebug() << "DiscoveryObj::theDiscovery is NULL. Check why";
     }
-    if(DiscoveryObj::theDiscovery->mode == SERVER_MODE){
+
+    if(DiscoveryObj::theDiscovery->mode == SERVER_MODE) {
         qDebug() << "in wsdd_event_Probe tid = " << MessageID << " replyTo"<< ReplyTo << " types"<< Types << " scopes"<< Scopes << " ";
         printf("wsdd_event_Probe\tid=%s replyTo=%s types=%s scopes=%s\n", MessageID, ReplyTo, Types, Scopes);
         soap_wsdd_init_ProbeMatches(soap,matches);
@@ -278,7 +275,9 @@ soap_wsdd_mode wsdd_event_Probe(struct soap *soap, const char *MessageID, const 
         soap_wsdd_ProbeMatches(soap, NULL, soap_wsa_rand_uuid(soap) , MessageID, ReplyTo, matches);
 
         fflush(stdout);
-
     }
+
     return SOAP_WSDD_ADHOC;
 }
+
+

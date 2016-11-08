@@ -15,17 +15,20 @@
 #include "display.h"
 
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+
+MainWindow::MainWindow(QWidget *parent)
+: QMainWindow(parent)
+, ui(new Ui::MainWindow)
 {
     int  _metadataVersion = 1;
     char* _xaddr="http://localhost/service";
     char* _type="\"http://schemas.xmlsoap.org/ws/2006/02/devprof\":device";
     char* _scope="scope";
     char* _endpoint="urn";
+
     discoveryObj = new DiscoveryObj(CLIENT_MODE, _metadataVersion, _xaddr, _type, _scope, _endpoint);
-    connect(discoveryObj,SIGNAL(discoveredDevice(DescDevice)) ,this,SLOT(onDiscoveredDevice(DescDevice)));
+    connect(discoveryObj, SIGNAL(discoveredDevice(DescDevice)), this, SLOT(onDiscoveredDevice(DescDevice)));
+
     ui->setupUi(this);
 }
 
@@ -34,25 +37,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::onDiscoveredDevice(DescDevice dev)
 {
-
-
     qDebug() << "\n**********************On dev found********************";
     qDebug() << "Dev found = " << dev.xAddrs;
     qDebug() << "Dev found scope = " << dev.scopes;
 
-
-//    QString name;
-//    char * pch = strstr((char*)dev.scopes.toStdString().data(), "OnvifVideoServer");
-//    if(pch > NULL){
-//        name = "OnvifVideoServer";
-//    }
-    //ui->onvifDevCB->addItem(dev.xAddrs + " " + name, QVariant::fromValue(dev));
-
     ui->onvifDevCB->addItem(dev.xAddrs + " " + dev.scopes, QVariant::fromValue(dev));
-  }
+}
 
 void MainWindow::on_btnSendProb_clicked()
 {
@@ -61,10 +53,9 @@ void MainWindow::on_btnSendProb_clicked()
     discoveryObj->sendProb();
 }
 
-
 void MainWindow::on_btnGetMediaURL_clicked()
 {
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
 
         qDebug() << "\n**********************Get media URL********************";
 
@@ -73,13 +64,13 @@ void MainWindow::on_btnGetMediaURL_clicked()
         qDebug() << "For device " << device.xAddrs;
 
         //QVector<std::string> tokens = Media::getProfileTokens(device.xAddrs);
-        QVector<std::string> tokens = Media::getProfileTokens("http://172.16.6.143/onvif/media_service");
+        QVector<std::string> tokens = Media::getProfileTokens("http://192.168.1.101:8000/onvif/media_service");
         //QVector<std::string> tokens = Media::getProfileTokens("http://127.0.0.1:8080");
 
         for(int j =0; j< tokens.size(); ++j){
             qDebug() << "Token  " << j << "= " << tokens.at(j).data();
-
         }
+
         if(tokens.size() > 0){
             //qDebug() <<"URL = "<<  Media::getStreamURL(device.xAddrs, tokens.at(0)).data();
             qDebug() <<"URL = "<<  Media::getStreamURL("http://172.16.6.143/onvif/media_service", tokens.at(0)).data();
@@ -111,7 +102,6 @@ void MainWindow::on_btnPTZTest_clicked()
         //PTZ::getStatus(device.xAddrs);
         //PTZ::goToPreset(device.xAddrs);
     }
-
 }
 
 void MainWindow::on_btnReceiverTest_clicked()
@@ -140,7 +130,6 @@ void MainWindow::on_btnEventTest_clicked()
         //PTZ::getStatus(device.xAddrs);
         //PTZ::goToPreset(device.xAddrs);
     }
-
 }
 
 void MainWindow::on_btnAnalyticsTest_clicked()
@@ -169,9 +158,7 @@ void MainWindow::on_btnVideoAnalyticsDeviceTest_clicked()
         //PTZ::getStatus(device.xAddrs);
         //PTZ::goToPreset(device.xAddrs);
     }
-
 }
-
 
 void MainWindow::on_btnRecordingControlTest_clicked()
 {
@@ -199,7 +186,6 @@ void MainWindow::on_btnRecordingSearchTest_clicked()
         //PTZ::getStatus(device.xAddrs);
         //PTZ::goToPreset(device.xAddrs);
     }
-
 }
 
 void MainWindow::on_btnReplayControlTest_clicked()
@@ -214,7 +200,6 @@ void MainWindow::on_btnReplayControlTest_clicked()
         //PTZ::getStatus(device.xAddrs);
         //PTZ::goToPreset(device.xAddrs);
     }
-
 }
 
 void MainWindow::on_btnDisplayTest_clicked()
@@ -230,3 +215,5 @@ void MainWindow::on_btnDisplayTest_clicked()
         //PTZ::goToPreset(device.xAddrs);
     }
 }
+
+

@@ -11,6 +11,8 @@
 #include "soap/wsddapi.h"
 #include <QDebug>
 
+
+
 QString OnvifServerThread::ipStr ;
 int OnvifServerThread::tcpPort;
 QString OnvifServerThread::addrsStr;
@@ -22,23 +24,21 @@ OnvifServerThread::OnvifServerThread(QString ipStr, int tcpPort)
     this->tcpPort = tcpPort;
 }
 
-void OnvifServerThread::run(){
-
+void OnvifServerThread::run()
+{
     //running = true;
-
     //Starts desovery --------------------------------------------------------------
-
     //char* _xaddr="http://x.x.x.x:8080"; //format
-    addrsStr = QString("http://")+ipStr+QString(":")+QString::number(tcpPort);
-    qDebug()<< "Addres = " + addrsStr;
+
+    addrsStr = QString("http://") + ipStr+QString(":") + QString::number(tcpPort);
+    qDebug() << "Addres = " + addrsStr;
     char* _xaddr=new char[addrsStr.length() + 1];
     strcpy(_xaddr, addrsStr.toLatin1().constData());
-
 
     //type=""; // bele de ishleyir
     typeStr = QString("discows:NetworkVideoTransmitter");// Look at text format otherwise onvif tester will not finde server. Format has to be as following "xxx:xxx"
     // Main rule is  type="\"http://www.onvif.org/ver10/network/wsdl\":NetworkVideoTransmitter \"http://www.onvif.org/ver10/network/wsdl\":Device"; // I got this link from wsdd.nmsp. It has described in tutorial
-    char* _type=new char[typeStr.length() + 1];
+    char* _type = new char[typeStr.length() + 1];
     strcpy(_type, typeStr.toLatin1().constData());
     std::cout << "_type " << _type << "\n";
 
@@ -58,9 +58,7 @@ void OnvifServerThread::run(){
     char* _endpoint= (char*)soap_wsa_rand_uuid(serv);
     //for genereatin randoim uuid end
 
-
     DiscoveryObj *discoveryObj = new DiscoveryObj(SERVER_MODE, 1, _xaddr, _type, _scope, _endpoint);
-
 
     //Starts accepting requests-------------------------------------------------------------------------
     struct soap *soap = soap_new();
@@ -78,7 +76,6 @@ void OnvifServerThread::run(){
     //ImagingServiceWrapper imagingSW(soap);
     //DeviceIOServiceWrapper deviceIOSW(soap);
 
-
     soap_bind(soap, NULL, tcpPort, 100);
 
 //    soap->send_timeout = 60; // 60 seconds
@@ -87,28 +84,25 @@ void OnvifServerThread::run(){
 //    soap->max_keep_alive = 100; // max keep-alive sequence
 
     //while(running){
-    while(true){
+    while(true) {
         qDebug() << "running \n";
 
         soap_accept(soap); //blocks the loop , find way to set timeout
-        if (soap_begin_serve(soap))
-            //... error
-            soap_stream_fault(soap, std::cerr);
-        else if (deviceSW.dispatch() == SOAP_NO_METHOD)
-        {
-            if (ptzSW.dispatch() == SOAP_NO_METHOD)
-            {
-                if (eventSW.dispatch() == SOAP_NO_METHOD)
-                {
-                    if (analyticsSW.dispatch() == SOAP_NO_METHOD){
+
+        if (soap_begin_serve(soap)) {
+            soap_stream_fault(soap, std::cerr); // error
+        } else if (deviceSW.dispatch() == SOAP_NO_METHOD) {
+            if (ptzSW.dispatch() == SOAP_NO_METHOD) {
+                if (eventSW.dispatch() == SOAP_NO_METHOD) {
+                    if (analyticsSW.dispatch() == SOAP_NO_METHOD) {
 //                        if (deviceIOSW.dispatch() == SOAP_NO_METHOD)
 //                        {
                             //if (imagingSW.dispatch() == SOAP_NO_METHOD)
                             //{
-                                if (mediaSW.dispatch() == SOAP_NO_METHOD)
-                                {
+                                if (mediaSW.dispatch() == SOAP_NO_METHOD) {
                                     printf("Method fault \n");
                                     fflush(stdout);
+
                                     soap_stream_fault(soap, std::cerr);
                                     soap_closesock(soap);
                                 }
@@ -118,14 +112,15 @@ void OnvifServerThread::run(){
                 }
             }
         }
+
         printf("loop end \n");
         fflush(stdout);
+
         soap_destroy(soap);
     }
 
     soap_end(soap);
     soap_free(soap); // only safe when abc, uvw, xyz are also deleted
-
 
     deviceSW.deleteObj();
     ptzSW.deleteObj();
@@ -135,8 +130,6 @@ void OnvifServerThread::run(){
     //imagingSW.deleteObj();
 
     delete discoveryObj;
-
-
 
     //    struct soap* serv = soap_new1(SOAP_IO_UDP);
     //    serv->bind_flags=SO_REUSEADDR;
@@ -172,6 +165,6 @@ void OnvifServerThread::run(){
     ////    sendBye();
     ////    mainloop(serv);
     //    //fflush(stdout);
-
-
 }
+
+

@@ -1,13 +1,13 @@
 #ifndef ONVIFSERVERTHREAD_H
 #define ONVIFSERVERTHREAD_H
+
 #include <QThread>
 
 
 class OnvifServerThread : public QThread
 {
-
-
     Q_OBJECT
+    
 public:
     OnvifServerThread(QString ipStr, int tcpPort);
 
