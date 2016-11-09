@@ -1,11 +1,15 @@
 #ifndef DEVICEIOSERVICE_H
 #define DEVICEIOSERVICE_H
+
 #include "onvif/deviceioserviceextabst.h"
+
+
 
 class DeviceIOService
 {
 public:
-    DeviceIOService(){
+    DeviceIOService()
+    {
     };
 
     static DeviceIOServiceExtAbst *serviecExt;

@@ -1,11 +1,15 @@
 #ifndef ANALYTICSSERVICE_H
 #define ANALYTICSSERVICE_H
+
 #include "onvif/analyticsserviceextabst.h"
+
+
 
 class AnalyticsService
 {
 public:
-    AnalyticsService(){
+    AnalyticsService()
+    {
     };
 
     static AnalyticsServiceExtAbst *serviceExt;

@@ -4,11 +4,13 @@
 #include <QVector>
 #include <QString>
 #include <QObject>
+
 #include "descdevice.h"
 #include "discoverythread.h"
 
-enum DiscoveryMode{
-    SERVER_MODE, CLIENT_MODE
+enum DiscoveryMode {
+    SERVER_MODE, 
+    CLIENT_MODE
 };
 
 class DiscoveryObj: public QObject{
@@ -26,8 +28,7 @@ public:
 //    const char* _type="\"http://schemas.xmlsoap.org/ws/2006/02/devprof\":device";
 //    const char* _scope="scope";
 //    const char* _endpoint="urn";
-
-
+    
     DiscoveryMode mode;
     static DiscoveryObj *theDiscovery;
     int   _metadataVersion;

@@ -8,6 +8,7 @@ class Event
 public:
     Event();
     ~Event();
+    
     static void getGetServiceCapabilities(QString devServiceURL);
 };
 

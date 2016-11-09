@@ -8,6 +8,7 @@ class Device
 public:
     Device();
     ~Device();
+    
     static void getDeviceInformation(QString devServiceURL);
     static void getUses(QString devServiceURL);
 };

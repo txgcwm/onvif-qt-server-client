@@ -1,25 +1,25 @@
-#include "ptz.h"
+#include <QDateTime>
 #include <QDebug>
 #include <QObject>
 #include <QString>
+
+#include "ptz.h"
+
 #include "soap/onvifptz.nsmap"
-#include <QDateTime>
 #include "soap/onvifptzPTZBindingProxy.h"
 
 
 
 PTZ::PTZ()
 {
-
 }
 
 PTZ::~PTZ()
 {
-
 }
 
-void PTZ::getStatus(QString devServiceURL) {
-
+void PTZ::getStatus(QString devServiceURL) 
+{
     qDebug() << "ptz service test: goGetStatuses";
 
     PTZBindingProxy p;
@@ -30,21 +30,18 @@ void PTZ::getStatus(QString devServiceURL) {
     if (p.GetStatus(devServiceURL.toStdString().data(), NULL, &in, out) == SOAP_OK) {
         //ok
         qDebug() << "X cord = " << out.PTZStatus->Position->PanTilt->x;
-
     } else {
         //error
         p.soap_print_fault(stderr);
         //fflush(stderr);
-
     }
 
     return ;
 }
 
-void PTZ::getNodes(QString devServiceURL) {
-
+void PTZ::getNodes(QString devServiceURL) 
+{
     qDebug() << "ptz service test: getNodes ptzservie url = " << devServiceURL.toStdString().data() << "\n";
-
 
     PTZBindingProxy p;
 
@@ -52,26 +49,23 @@ void PTZ::getNodes(QString devServiceURL) {
     _ptzws__GetNodesResponse out;
 
     if (p.GetNodes(devServiceURL.toStdString().data(), NULL, &in, out) == SOAP_OK) {
-        //ok
         qDebug() << "PTZ node size = " << out.PTZNode.size();
         for(int i =0;i< out.PTZNode.size(); i++){
             //tt__PTZNode
             qDebug() << "Node name" << i << "=" << out.PTZNode[i]->Name->data();
             qDebug() << "Node home supported " << i << "=" << out.PTZNode[i]->HomeSupported;
         }
-
     } else {
         //error
         p.soap_print_fault(stderr);
         //fflush(stderr);
-
     }
 
     return ;
 }
 
-void PTZ::goToPreset(QString devServiceURL) {
-
+void PTZ::goToPreset(QString devServiceURL) 
+{
     qDebug() << "ptz service test: goToPreset";
 
     PTZBindingProxy p;
@@ -85,7 +79,6 @@ void PTZ::goToPreset(QString devServiceURL) {
     if (p.GotoPreset(devServiceURL.toStdString().data(), NULL, &in, out) == SOAP_OK) {
         //ok
         qDebug() << "PTZ go to preset ok " ;
-
     } else {
         //error
         p.soap_print_fault(stderr);

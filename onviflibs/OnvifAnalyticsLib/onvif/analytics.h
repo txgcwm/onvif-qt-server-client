@@ -3,6 +3,9 @@
 
 #include <QString>
 #include <string>
+
+
+
 class Analytics
 {
 public:

@@ -1,7 +1,9 @@
-#include "soap/onvifdeviceioDeviceIOBindingService.h"
 #include <QDebug>
 #include <QObject>
 #include <QString>
+
+#include "soap/onvifdeviceioDeviceIOBindingService.h"
+
 #include "onvif/deviceioservice.h"
 
 DeviceIOServiceExtAbst * DeviceIOService::serviecExt = NULL;

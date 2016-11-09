@@ -1,5 +1,6 @@
 #ifndef MYTHREAD_H
 #define MYTHREAD_H
+
 #include <QThread>
 
 class DiscoveryThread : public QThread
@@ -14,6 +15,7 @@ class DiscoveryThread : public QThread
     Q_OBJECT
 public:
     DiscoveryThread();
+
 protected:
     void run();
 };

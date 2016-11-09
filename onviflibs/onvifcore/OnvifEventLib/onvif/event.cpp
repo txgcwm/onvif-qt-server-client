@@ -1,24 +1,24 @@
-#include "event.h"
 #include <QDebug>
 #include <QObject>
 #include <QString>
+
 #include "soap/onvifeventPullPointSubscriptionBindingProxy.h"
 #include "soap/onvifevent.nsmap"
+
+#include "event.h"
+
 
 
 Event::Event()
 {
-
 }
 
 Event::~Event()
 {
-
 }
 
-
-void Event::getGetServiceCapabilities(QString devServiceURL) {
-
+void Event::getGetServiceCapabilities(QString devServiceURL) 
+{
     qDebug() << "Event service test: getGetServiceCapabilities";
 
     PullPointSubscriptionBindingProxy d;
@@ -27,13 +27,11 @@ void Event::getGetServiceCapabilities(QString devServiceURL) {
     _eventws__GetServiceCapabilitiesResponse out;
 
     if (d.GetServiceCapabilities(devServiceURL.toStdString().data(), NULL, &in, out) == SOAP_OK) {
-        //ok
         if(out.Capabilities != NULL){
             qDebug() << out.Capabilities->MaxNotificationProducers;
             qDebug() << out.Capabilities->MaxPullPoints;
             qDebug() << out.Capabilities->PersistentNotificationStorage;
         }
-
     } else {
         //error
         d.soap_print_fault(stderr);

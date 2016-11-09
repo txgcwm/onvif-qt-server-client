@@ -1,8 +1,10 @@
+#include <iostream>
+
+#include <QDebug>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
 #include "device.h"
-#include <QDebug>
 #include "media.h"
 #include "ptz.h"
 #include "receiver.h"
@@ -67,13 +69,13 @@ void MainWindow::on_btnGetMediaURL_clicked()
         QVector<std::string> tokens = Media::getProfileTokens("http://192.168.1.101:8000/onvif/media_service");
         //QVector<std::string> tokens = Media::getProfileTokens("http://127.0.0.1:8080");
 
-        for(int j =0; j< tokens.size(); ++j){
+        for(int j = 0; j < tokens.size(); ++j) {
             qDebug() << "Token  " << j << "= " << tokens.at(j).data();
         }
 
-        if(tokens.size() > 0){
+        if(tokens.size() > 0) {
             //qDebug() <<"URL = "<<  Media::getStreamURL(device.xAddrs, tokens.at(0)).data();
-            qDebug() <<"URL = "<<  Media::getStreamURL("http://172.16.6.143/onvif/media_service", tokens.at(0)).data();
+            qDebug() <<"URL = "<<  Media::getStreamURL("http://192.168.1.101:8000/onvif/media_service", tokens.at(0)).data();
         }
     }
 }
@@ -82,7 +84,7 @@ void MainWindow::on_btnGetDeviceInformation_clicked()
 {
     qDebug() << "\n**********************Get device info********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs;
         Device::getDeviceInformation(device.xAddrs);
@@ -94,7 +96,7 @@ void MainWindow::on_btnPTZTest_clicked()
 {
     qDebug() << "\n**********************PTZ test********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs ;
         //PTZ::getNodes("http://127.0.0.1:8080");
@@ -108,7 +110,7 @@ void MainWindow::on_btnReceiverTest_clicked()
 {
     qDebug() << "\n**********************Receiver test********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs ;
         //PTZ::getNodes("http://127.0.0.1:8080");
@@ -122,7 +124,7 @@ void MainWindow::on_btnEventTest_clicked()
 {
     qDebug() << "\n**********************Event test********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs ;
         //PTZ::getNodes("http://127.0.0.1:8080");
@@ -136,7 +138,7 @@ void MainWindow::on_btnAnalyticsTest_clicked()
 {
     qDebug() << "\n**********************Event test********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs ;
         //PTZ::getNodes("http://127.0.0.1:8080");
@@ -150,7 +152,7 @@ void MainWindow::on_btnVideoAnalyticsDeviceTest_clicked()
 {
     qDebug() << "\n**********************Event test********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs ;
         //PTZ::getNodes("http://127.0.0.1:8080");
@@ -164,7 +166,7 @@ void MainWindow::on_btnRecordingControlTest_clicked()
 {
     qDebug() << "\n**********************RecordingControl test********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs ;
         //PTZ::getNodes("http://127.0.0.1:8080");
@@ -178,7 +180,7 @@ void MainWindow::on_btnRecordingSearchTest_clicked()
 {
     qDebug() << "\n**********************RecordingSearch test********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs ;
         //PTZ::getNodes("http://127.0.0.1:8080");
@@ -192,7 +194,7 @@ void MainWindow::on_btnReplayControlTest_clicked()
 {
     qDebug() << "\n**********************ReplayControl test********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs ;
         //PTZ::getNodes("http://127.0.0.1:8080");
@@ -206,7 +208,7 @@ void MainWindow::on_btnDisplayTest_clicked()
 {
     qDebug() << "\n**********************Display test********************";
 
-    if(ui->onvifDevCB->currentIndex()>=0){
+    if(ui->onvifDevCB->currentIndex() >= 0) {
         DescDevice device = ui->onvifDevCB->currentData().value<DescDevice>();
         qDebug() << "For device " << device.xAddrs ;
         //PTZ::getNodes("http://127.0.0.1:8080");

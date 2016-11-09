@@ -3,6 +3,8 @@
 
 #include "soap/onvifdeviceioH.h"
 
+
+
 class DeviceIOServiceExtAbst
 {
 public:
@@ -89,9 +91,7 @@ public:
     virtual	int GetSerialPortConfigurationOptions(_deviceio__GetSerialPortConfigurationOptions *deviceio__GetSerialPortConfigurationOptions, _deviceio__GetSerialPortConfigurationOptionsResponse &deviceio__GetSerialPortConfigurationOptionsResponse)  = 0;
 
     /// Web service operation 'SendReceiveSerialCommand' (returns error code or SOAP_OK)
-    virtual	int SendReceiveSerialCommand(_deviceio__SendReceiveSerialCommand *deviceio__SendReceiveSerialCommand, _deviceio__SendReceiveSerialCommandResponse &deviceio__SendReceiveSerialCommandResponse)  = 0;
-
-
+    virtual	int SendReceiveSerialCommand(_deviceio__SendReceiveSerialCommand *deviceio__SendReceiveSerialCommand, _deviceio__SendReceiveSerialCommandResponse &deviceio__SendReceiveSerialCommandResponse) = 0;
 };
 
 #endif // DEVICEIOSERVICEEXTABST_H

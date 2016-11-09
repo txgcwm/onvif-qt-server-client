@@ -1,7 +1,9 @@
-#include "soap/onvifdeviceDeviceBindingService.h"
 #include <QDebug>
 #include <QObject>
 #include <QString>
+
+#include "soap/onvifdeviceDeviceBindingService.h"
+
 #include "onvif/deviceservice.h"
 
 DeviceServiceExtAbst * DeviceService::dse = NULL;
